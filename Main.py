@@ -55,20 +55,26 @@ def main():
                     text = myfont.render("{0}: {1}".format(counter, str(Cord)), 0, BLACK)
                     WIN.blit(text, (WINDOWWIDTH + 10, 70 + counter * 15))
                     counter += 1
-
+        
 
         pygame.display.update()
 
         #Event Loop
-        
+        keysPressed = pygame.key.get_pressed()
+
+        board.changeNodeState(keysPressed)
+
         for event in pygame.event.get():
+            
             if event.type == pygame.QUIT:
                 run = False
             
-            if event.type == pygame.MOUSEBUTTONDOWN:
+            '''if event.type == pygame.MOUSEBUTTONDOWN:
                 row, col = get_row_col_from_mouse(pygame.mouse.get_pos())
                 if row != -1 and col != -1:
                     board.changeNodeState(col, row)
+            '''
+
 
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_RETURN:

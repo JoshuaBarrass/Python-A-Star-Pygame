@@ -1,5 +1,6 @@
 import pygame
 import random
+import time
 from .Consants import *
 from .Node import Node
 
@@ -18,6 +19,8 @@ class Board:
         self.VisitedNodes = []
         self.Path = []
         self.Found = []
+        self.delay = 0.05
+        self.LastPress = time.time()
     
     def reset(self):
         self._Init()
@@ -55,12 +58,32 @@ class Board:
             pygame.draw.line(self.win, BLACK, (x, 0), (x, WINDOWHEIGHT), 1)
             pygame.draw.line(self.win, BLACK, (0, x), (WINDOWWIDTH, x), 1)
 
-    def changeNodeState(self, X, Y):
+        ''' def changeNodeState(self, X, Y):
         if self.board[X][Y] == "K":
             self.board[X][Y] = ""
         
         elif self.board[X][Y] == "":
             self.board[X][Y] = "K"
+            '''
+
+    def changeNodeState(self, keysPressed):
+        Y, X = self._get_row_col_from_mouse(pygame.mouse.get_pos())
+        if keysPressed[pygame.K_DELETE]:
+                
+            if self.board[X][Y] == "K":
+                self.board[X][Y] = ""
+
+        elif keysPressed[pygame.K_SPACE]:
+            if self.board[X][Y] == "":
+                self.board[X][Y] = "K"
+
+    def _get_row_col_from_mouse(self, pos):
+        x, y = pos
+        row = y // SQUARE_SIZE
+        col = x // SQUARE_SIZE
+        if x > WINDOWWIDTH:
+            return -1, -1
+        return row,col
 
     def _DrawRunningBoard(self):
         TempBoard = self.board
